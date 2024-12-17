@@ -1,0 +1,52 @@
+.present-container {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  margin: auto;
+  text-align: center;
+}
+
+.present {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.present.opened {
+  transform: translateY(-50px);
+}
+
+.lid {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background-color: red;
+  border-radius: 5px 5px 0 0;
+  transition: transform 0.5s ease;
+}
+
+.present.opened .lid {
+  transform: translateY(-150px) rotate(30deg);
+}
+
+.box {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80%;
+  background-color: green;
+  border-radius: 0 0 5px 5px;
+}
+
+.video-container {
+  margin-top: 20px;
+}
+
+.portrait-video {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
