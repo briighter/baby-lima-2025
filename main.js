@@ -71,7 +71,7 @@ function animate() {
     requestAnimationFrame(animate);
     cube.rotation.y += 0.01;
     lid.rotation.y += 0.01;
-    loop1.rotation.y += 0.005;
+    loop1.rotation.y += 0.01;
     loop1.rotation.x += 0.01;
     loop2.rotation.y += 0.01;
     loop2.rotation.x += 0.01;
