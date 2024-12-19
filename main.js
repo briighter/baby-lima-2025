@@ -12,6 +12,13 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+scene.background = cubeTextureLoader.load([
+    'px.jpg', 'nx.jpg',
+    'py.jpg', 'ny.jpg',
+    'pz.jpg', 'nz.jpg'
+]);
+
 document.body.appendChild(renderer.domElement);
 
 loader.load(
