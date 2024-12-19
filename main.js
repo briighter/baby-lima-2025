@@ -14,9 +14,12 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 scene.background = cubeTextureLoader.load([
-    'px.jpg', 'nx.jpg',
-    'py.jpg', 'ny.jpg',
-    'pz.jpg', 'nz.jpg'
+  "px.jpg",
+  "nx.jpg",
+  "py.jpg",
+  "ny.jpg",
+  "pz.jpg",
+  "nz.jpg",
 ]);
 
 document.body.appendChild(renderer.domElement);
@@ -69,55 +72,70 @@ window.addEventListener("click", (event) => {
   }
 });
 
-function animate() {
-    requestAnimationFrame(animate);
+// Add touch event listener for mobile
+window.addEventListener("touchstart", (event) => {
+  if (event.touches.length > 0) {
+    mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
 
-    if (scene.children.length > 0) {
-        const giftBox = scene.children[0];
-        const time = Date.now() * 0.001;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children, true);
 
-        if (!isAnimating) {
-            // Normal animation
-            giftBox.rotation.y += 0.005;
-            giftBox.position.y = Math.sin(time) * 0.1;
-        } else {
-            // Click animation
-            const elapsed = Date.now() - animationStartTime;
-            const progress = Math.min(elapsed / ANIMATION_DURATION, 1);
-
-            giftBox.rotation.y += 0.3;
-            giftBox.scale.set(
-                12 * (1 - progress * 0.8),
-                12 * (1 - progress * 0.8),
-                12 * (1 - progress * 0.8)
-            );
-
-            if (progress === 1) {
-                scene.remove(giftBox);
-                isAnimating = false;
-
-                // Create and add video element
-                const video = document.createElement("video");
-                video.src = "public/a600aaf62686404c97009dc36e34bc66.mp4"; // Set your video source here
-                video.width = 1080;
-                video.height = window.innerHeight;
-                video.autoplay = true;
-                video.controls = true;
-                let canvas = document.querySelector("canvas");
-                const ctx = canvas.getContext("webgl2");
-                const texture = new THREE.VideoTexture(video);
-                const videoMaterial = new THREE.MeshBasicMaterial({ map: texture });
-                const videoGeometry = new THREE.PlaneGeometry(4.5, 7);
-                const videoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
-                scene.add(videoMesh);
-                video.play();
-                // canvas.appendChild(video);
-                
-            }
-        }
+    if (intersects.length > 0 && !isAnimating) {
+      isAnimating = true;
+      animationStartTime = Date.now();
     }
+  }
+});
 
-    renderer.render(scene, camera);
+function animate() {
+  requestAnimationFrame(animate);
+
+  if (scene.children.length > 0) {
+    const giftBox = scene.children[0];
+    const time = Date.now() * 0.001;
+
+    if (!isAnimating) {
+      // Normal animation
+      giftBox.rotation.y += 0.005;
+      giftBox.position.y = Math.sin(time) * 0.1;
+    } else {
+      // Click animation
+      const elapsed = Date.now() - animationStartTime;
+      const progress = Math.min(elapsed / ANIMATION_DURATION, 1);
+
+      giftBox.rotation.y += 0.3;
+      giftBox.scale.set(
+        12 * (1 - progress * 0.8),
+        12 * (1 - progress * 0.8),
+        12 * (1 - progress * 0.8)
+      );
+
+      if (progress === 1) {
+        scene.remove(giftBox);
+        isAnimating = false;
+
+        // Create and add video element
+        const video = document.createElement("video");
+        video.src = "public/a600aaf62686404c97009dc36e34bc66.mp4"; // Set your video source here
+        video.width = 1080;
+        video.height = window.innerHeight;
+        video.autoplay = true;
+        video.controls = true;
+        let canvas = document.querySelector("canvas");
+        const ctx = canvas.getContext("webgl2");
+        const texture = new THREE.VideoTexture(video);
+        const videoMaterial = new THREE.MeshBasicMaterial({ map: texture });
+        const videoGeometry = new THREE.PlaneGeometry(4.5, 7);
+        const videoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
+        scene.add(videoMesh);
+        video.play();
+        // canvas.appendChild(video);
+      }
+    }
+  }
+
+  renderer.render(scene, camera);
 }
 
 animate();
