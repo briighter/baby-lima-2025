@@ -22,7 +22,7 @@ scene.background = cubeTextureLoader.load([
 document.body.appendChild(renderer.domElement);
 
 loader.load(
-  "/gift_box.glb", // Update the path
+  "public/gift_box.glb", // Update the path
   function (gltf) {
     scene.add(gltf.scene);
 
@@ -98,7 +98,7 @@ function animate() {
 
                 // Create and add video element
                 const video = document.createElement("video");
-                video.src = "a600aaf62686404c97009dc36e34bc66.mp4"; // Set your video source here
+                video.src = "public/a600aaf62686404c97009dc36e34bc66.mp4"; // Set your video source here
                 video.width = 1080;
                 video.height = window.innerHeight;
                 video.autoplay = true;
