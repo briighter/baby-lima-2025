@@ -121,7 +121,7 @@ function animate() {
         video.width = 1080;
         video.height = window.innerHeight;
         video.autoplay = true;
-        video.controls = true;
+        video.controls = false;
         let canvas = document.querySelector("canvas");
         const ctx = canvas.getContext("webgl2");
         const texture = new THREE.VideoTexture(video);
